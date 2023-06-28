@@ -144,17 +144,12 @@ bool Quad::inBoundary(Point p)
 			&& p.y >= topLeft.y && p.y <= botRight.y);
 }
 void escribir(string texto){
-	ofstream out_file;  // Output File Stream para escribir (writing)
-    //ifstream in_file;   Input File Stream  para leer (reading)
-
-    // Escribir el archivo
-    out_file.open("Prueba.txt", ios::app); // ios::app es lo paralello a "a" que significa append agregar al final del archivo
-    out_file << texto <<";\n"; // agregamos al buffer del stream
-    out_file.close();  // flush el buffer y cerramos. flush el buffer basicamente hace write en el archivo.
-    
+	ofstream out_file;
+    out_file.open("Prueba.txt", ios::app);
+    out_file << texto <<";\n";
+    out_file.close();
 }
-void Quad::list(Quad* t){	// los datos se tendran que guardar en un .text
-							// por que no encuentro otra forma de lograr permanencia.
+void Quad::list(Quad* t){	
 	if(t!=NULL && t->n!=NULL){
 		string s1 = to_string(t->n->data);
 		string s2 = to_string(t->n->pos.x);
@@ -193,19 +188,6 @@ int Quad:: countRegion(Point p, int d ){
 
     Point aux1, aux2;
     int x1,x2,y1,y2;
-
-    /*if(p->x - d <= 0){
-        x1 = 0;
-    }else{
-        x1 =p->x - d;
-    }
-    if(p->y - d <= 0){
-        y1 = 0;
-    }else{
-        y1= p->y - d;
-    }*/
-
-    
     aux1.setXY(p.x - d, p.y-d);
     aux2.setXY(p.x +d, p.y +d);
     int aux = search_inRegion(this, aux1, aux2,1);
@@ -230,7 +212,6 @@ bool Quad:: inRect(Point rectAInit, Point rectALimit, Point rectBInit, Point rec
     if(A_right <= B_left){return false;}
     if(A_left >= B_right){return false;}
     //Bandera de colision
-    cout << "Es true" << endl ;
     return true;
 }
 
@@ -240,23 +221,20 @@ int Quad::search_inRegion(Quad* current, Point init, Point limit, int caso){
     int derp = 0;
     int jesse = 0;
 
-    if(current-> black == false){
+    if(current == NULL){
         return 0;
     }
 
     if(current->n != NULL && caso == 1){
         //caso solo negros
-        cout << "entro" <<endl;
         return 1;
     }
     if(current->n != NULL && caso == 3){
         //caso negros y blancos
-        cout << "entro" <<endl;
         return 1;
     }
     if(current->n != NULL && caso == 2){
         //caso de poblacion
-        cout << "entro" <<endl;
         return current->n->data;
     }
     else{
@@ -269,33 +247,22 @@ int Quad::search_inRegion(Quad* current, Point init, Point limit, int caso){
             if(current->topLeftTree != NULL){
                
                     derp = derp + search_inRegion(current->topLeftTree, init, limit, caso);
-                    cout << "derp" << derp <<endl;
                 
-            
             }
             if(current->topRightTree != NULL){
                 
                     derp = derp + search_inRegion(current->topRightTree, init, limit, caso);
-                    cout << "derp" << derp <<endl;
                    
-            
-                
-                
             }
             if(current->botLeftTree != NULL){
                
                     derp = derp + search_inRegion(current->botLeftTree, init, limit, caso);
-                    cout << "derp" << derp <<endl;
                   
-            
-                
-                
             }
             if(current->botRightTree != NULL){
                 
                     derp = derp + search_inRegion(current->botRightTree, init, limit, caso);
-                    cout << "derp" << derp <<endl;              
-                
+                    
             }
 
             if(caso == 3){
@@ -319,13 +286,11 @@ int Quad::search_inRegion(Quad* current, Point init, Point limit, int caso){
 
 
     }
-    cout<< "Suma actual: "<< derp<<endl;
-    cout << "derp" << derp <<endl;
+   
     return derp;
 }
 
 int Quad:: totalPoints(){
-
     return search_inRegion(this,this->topLeft, this->botRight,1);
 }
 
@@ -336,22 +301,9 @@ int Quad:: totalNodes(){
 int Quad:: aggregateRegion(Point p, int d){
     Point aux1, aux2;
     int x1,x2,y1,y2;
-
-    /*if(p->x - d <= 0){
-        x1 = 0;
-    }else{
-        x1 =p->x - d;
-    }
-    if(p->y - d <= 0){
-        y1 = 0;
-    }else{
-        y1= p->y - d;
-    }*/
-
-    
     aux1.setXY(p.x - d, p.y-d);
     aux2.setXY(p.x +d, p.y +d);
-    int aux = search_inRegion(this, aux1, aux2,1);
+    int aux = search_inRegion(this, aux1, aux2,2);
 
     return aux;
 }
