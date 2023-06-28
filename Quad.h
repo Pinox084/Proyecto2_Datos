@@ -47,13 +47,13 @@ private:
     // Contains details of node
     Node* n;
     // Children of this tree
-    Quad* topLeftTree;
+   	Quad* topLeftTree;
     Quad* topRightTree;
     Quad* botLeftTree;
     Quad* botRightTree;
 
 public:
-	
+
     Quad(Point topL, Point botR);
     //void leerCsv();
     void insert(Node*);
@@ -70,5 +70,5 @@ public:
     int aggregateRegion(Point p, int d);
 	void _printQuadTree(Quad* t, int indent);
 	void printQuadTree();
+	void getQuads(Quad t);
 };
-
